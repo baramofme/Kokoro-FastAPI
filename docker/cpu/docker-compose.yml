@@ -6,8 +6,8 @@ services:
       dockerfile: docker/cpu/Dockerfile
     volumes:
       - ../../api:/app/api
-    ports:
-      - "8880:8880"
+    # ports:
+    #   - "8880:8880"
     environment:
       - PYTHONPATH=/app:/app/api
       # ONNX Optimization Settings for vectorized operations
@@ -17,7 +17,12 @@ services:
       - ONNX_OPTIMIZATION_LEVEL=all
       - ONNX_MEMORY_PATTERN=true
       - ONNX_ARENA_EXTEND_STRATEGY=kNextPowerOfTwo
-      
+    networks:
+      - dokploy-network
+networks:
+  dokploy-network:
+    external: true
+    
   # # Gradio UI service [Comment out everything below if you don't need it]
   # gradio-ui:
   #   image: ghcr.io/remsky/kokoro-fastapi-ui:v${VERSION}
